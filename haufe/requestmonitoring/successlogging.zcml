@@ -1,0 +1,8 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <subscriber handler=".successlogging.start_successlogging" />
+  <!-- the "IPubEvent" subscribers are registered in the code when
+       the timelogging is configured
+   -->
+
+</configure>

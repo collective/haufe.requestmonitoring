@@ -1,0 +1,160 @@
+Introduction
+============
+
+``haufe.requestmonitoring`` implements a detailed request logging functionality
+on top of the publication events as introduced with Zope 2.12.
+
+
+Requirements
+============
+
+* Zope 2.12.0b2 or higher
+* Currently tested on Zope 2.13.15
+
+Features
+========
+
+Fine resolution request logging
+-------------------------------
+
+Used as base for ``ztop`` and ``zanalyse``, i.e. helps to determine the Zope load,
+detect long running requests and to analyse the causes of restarts.
+
+
+The implementation in this module registers subscribers for ``IPubStart`` and
+``IPubSuccess/IPubFailure``.  For each of these events, a log entry of the form::
+
+   timestamp status request_time type request_id request_info
+
+is written.
+
+Fields
+++++++
+
+- *timestamp* is the current time in the format ``%y%m%dT%H%M%S``.
+
+- *status* is ``0`` for ``IPubStart`` events, ``390`` for requests that will
+  be retried and the result of ``IStatus`` applied to the response otherwise.
+
+- *request_time* is ``0`` for ``IPubStart`` events. Otherwise, it will be
+  the request time in seconds.
+
+- *type* is ``+`` for ``IPubStart`` and ``-`` otherwise.
+
+- *request_id* is the (process) unique request id.
+
+- *request_info* is ``IInfo`` applied to the request.
+
+
+In addition, a log entry with ``request_info == restarted`` is written when this
+logging is activated. Apart from ``request_info`` and ``timestamp`` all other
+fields are ``0``. It indicates (obviously) that the server has been restarted.
+Following requests get request ids starting with ``1``.
+
+To activate this logging, both ``timelogging.zcml`` must be activated (on by
+default) and a ``product-config`` section with name ``timelogging`` must be
+defined containing the key ``filebase``.  It specifies the basename of the
+logfile; ``.<date>`` will be appended to this base.  Then, ``ITicket``,
+``IInfo`` adapters must be defined (e.g.  the one from ``info``).  An
+``IStatus`` adapter may be defined for response.
+
+Example::
+
+  <product-config timelogging>
+  filebase /path/to/request-logs/instance-foo
+  </product-config>
+
+
+Success request logging
+-----------------------
+
+This logging writes two files ``<base>_good.<date>`` and ``<base>_bad.<date>``.
+For each request, a character is writen to either the good or the bad logfile,
+depending on whether the request was successful or unsuccessful. This means,
+that only the file size matters for these logfiles.
+
+Usually, response codes >= 500 are considered as unsuccessful requests.  You
+can register an ``ISuccessFull`` adapter, when you need a different
+classification.
+
+To activate this logging, both ``successlogging.zcml`` must be activated (on by
+default) and a ``product-config`` section with name ``successlogging`` must be
+defined containing the key ``filebase``.  It specifies the basename of the
+logfiles (represented as ``<base>`` above).
+
+Example::
+
+  <product-config successlogging>
+  filebase /path/to/request-logs/successful-foo
+  </product-config>
+
+
+Monitoring long running requests
+--------------------------------
+
+``haufe.requestmonitoring`` allows you to monitor long-running request. The following
+configuration within your ``zope.conf`` configuration file will install the DumpTracer
+and check after the ``period`` seconds for requests running longer than ``time``
+seconds::
+
+    %import haufe.requestmonitoring
+    <requestmonitor requestmonitor>
+        period 5s
+        <monitorhandler dumper>
+            factory Haufe.RequestMonitoring.DumpTraceback.factory
+            # 0 --> no repetition
+            repeat -1
+            time 10s
+        </monitorhandler>
+    </requestmonitor>
+
+A typical dump trace looks like this (it shows you the URL and the current 
+stacktrace)::
+
+
+    2009-08-11 14:29:09 INFO Zope Ready to handle requests
+    2009-08-11 14:29:09 INFO RequestMonitor started
+    2009-08-11 14:29:14 INFO RequestMonitor monitoring 1 requests
+    2009-08-11 14:29:19 INFO RequestMonitor monitoring 1 requests
+    2009-08-11 14:29:24 INFO RequestMonitor monitoring 1 requests
+    2009-08-11 14:29:24 WARNING RequestMonitor.DumpTrace Long running request
+    Request 1 "/foo" running in thread -497947728 since 14.9961140156s
+    Python call stack (innermost first)
+    Module /home/junga/sandboxes/review/parts/instance/Extensions/foo.py, line 4, in foo
+    Module Products.ExternalMethod.ExternalMethod, line 231, in __call__
+    - __traceback_info__: ((), {}, None)
+    Module ZPublisher.Publish, line 46, in call_object
+    Module ZPublisher.mapply, line 88, in mapply
+    Module ZPublisher.Publish, line 126, in publish
+    Module ZPublisher.Publish, line 225, in publish_module_standard
+    Module ZPublisher.Publish, line 424, in publish_module
+    Module Products.ZopeProfiler.ZopeProfiler, line 353, in _profilePublishModule
+    Module Products.ZopeProfiler.MonkeyPatcher, line 35, in __call__
+    Module ZServer.PubCore.ZServerPublisher, line 28, in __init__
+
+
+
+
+Installation
+------------
+
+In addition you must ``haufe.requestmonitoring`` to the ``zcml`` option of your buildout.cfg
+file or include it within the ``site.zcml`` file using::
+
+   <include package="haufe.requestmonitoring" />
+
+
+Author
+======
+
+- original author: Dieter Maurer, Haufe Mediengruppe 
+- current maintainer: Andreas Jung, Haufe Mediengruppe
+
+
+License
+=======
+
+``haufe.requestmonitoring`` is published under the Zope Public License V 2.1 (ZPL)
+See LICENSE.txt.
+
+

@@ -1,0 +1,10 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <include file="info.zcml" />
+
+  <subscriber handler=".monitor.start_monitor" />
+  <!-- the "IPubEvent" subscribers are registered in the code when
+       the request monitor is configured
+   -->
+
+</configure>

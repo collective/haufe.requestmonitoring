@@ -1,0 +1,6 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+    <adapter factory=".info.get_or_make_ticket" />
+    <adapter factory=".info.info" />
+
+</configure>

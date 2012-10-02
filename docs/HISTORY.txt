@@ -1,0 +1,31 @@
+Changelog
+=========
+
+0.3.0a (unreleased)
+-------------------
+
+* do not use the deprecated ``threadframe`` anymore [keul]
+* fixed egg dependencies for Zope 2.13 [keul]
+
+0.2.3 - (2009/08/11)
+--------------------
+
+* updated documentation
+
+0.2.2 - (2009/07/20)
+--------------------
+
+* minor cleanup
+* minor documentation cleanup
+
+0.2.1 - (2009/05/28)
+--------------------
+
+* configure 'successlogging' by default
+* slightly updated documentation
+
+0.2.0 - (2009/05/12)
+--------------------
+
+* Initial release
+
