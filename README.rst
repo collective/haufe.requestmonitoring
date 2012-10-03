@@ -11,6 +11,10 @@ Requirements
 * Zope 2.12.0b2 or higher
 * Currently tested on Zope 2.13.15
 
+On olders Zope (2.10.x) you can take a look at `ZPublisherEventsBackport`__.
+
+__ http://pypi.python.org/pypi/ZPublisherEventsBackport
+
 Features
 ========
 
@@ -92,10 +96,10 @@ Example::
 Monitoring long running requests
 --------------------------------
 
-``haufe.requestmonitoring`` allows you to monitor long-running request. The following
-configuration within your ``zope.conf`` configuration file will install the DumpTracer
-and check after the ``period`` seconds for requests running longer than ``time``
-seconds::
+``haufe.requestmonitoring`` allows you to monitor long-running request. The
+following configuration within your ``zope.conf`` configuration file will
+install the DumpTracer and check after the ``period`` seconds for requests
+running longer than ``time`` seconds::
 
     %import haufe.requestmonitoring
     <requestmonitor requestmonitor>
@@ -138,8 +142,8 @@ stacktrace)::
 Installation
 ------------
 
-In addition you must ``haufe.requestmonitoring`` to the ``zcml`` option of your buildout.cfg
-file or include it within the ``site.zcml`` file using::
+In addition you must ``haufe.requestmonitoring`` to the ``zcml`` option of
+your buildout.cfg file or include it within the ``site.zcml`` file using::
 
    <include package="haufe.requestmonitoring" />
 
@@ -154,7 +158,7 @@ Author
 License
 =======
 
-``haufe.requestmonitoring`` is published under the Zope Public License V 2.1 (ZPL)
-See LICENSE.txt.
+``haufe.requestmonitoring`` is published under the Zope Public License V 2.1
+(ZPL). See LICENSE.txt.
 
 

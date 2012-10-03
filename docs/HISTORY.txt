@@ -4,7 +4,8 @@ Changelog
 0.3.0a (unreleased)
 -------------------
 
-* do not use the deprecated ``threadframe`` anymore [keul]
+* do not use deprecated ``threadframe`` dependency anymore on recent Python
+  versions [keul]
 * fixed egg dependencies for Zope 2.13 [keul]
 
 0.2.3 - (2009/08/11)

@@ -1,7 +1,17 @@
 import os
+import sys
 from setuptools import setup, find_packages
 
 version = '0.3.0.dev0'
+
+install_requires = [
+          'setuptools',
+          'Zope2',
+          'zope.app.appsetup',
+      ]
+
+if sys.version_info < (2, 5):
+    install_requires.append('threadframe')
 
 setup(name='haufe.requestmonitoring',
       version=version,
@@ -10,7 +20,10 @@ setup(name='haufe.requestmonitoring',
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+        "Development Status :: 3 - Alpha",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.4",
+        "Programming Language :: Python :: 2.5",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Framework :: Zope2",
@@ -28,11 +41,7 @@ setup(name='haufe.requestmonitoring',
       namespace_packages=['haufe'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          'setuptools',
-          'Zope2',
-          'zope.app.appsetup',
-      ],
+      install_requires=install_requires,
       entry_points="""
       # -*- Entry points: -*-
       """,
