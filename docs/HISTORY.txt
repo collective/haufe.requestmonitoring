@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.3.0a (unreleased)
--------------------
+0.3.0 (unreleased)
+------------------
 
 * do not use deprecated ``threadframe`` dependency anymore on recent Python
   versions [keul]

@@ -1,3 +1,5 @@
+.. contents:: **Table of contents**
+
 Introduction
 ============
 
@@ -73,7 +75,7 @@ Success request logging
 -----------------------
 
 This logging writes two files ``<base>_good.<date>`` and ``<base>_bad.<date>``.
-For each request, a character is writen to either the good or the bad logfile,
+For each request, a character is written to either the good or the bad logfile,
 depending on whether the request was successful or unsuccessful. This means,
 that only the file size matters for these logfiles.
 

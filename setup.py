@@ -20,8 +20,9 @@ setup(name='haufe.requestmonitoring',
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.4",
         "Programming Language :: Python :: 2.5",
         "Programming Language :: Python :: 2.6",
