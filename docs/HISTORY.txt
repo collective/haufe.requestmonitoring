@@ -7,6 +7,7 @@ Changelog
 * do not use deprecated ``threadframe`` dependency anymore on recent Python
   versions [keul]
 * fixed egg dependencies for Zope 2.13 [keul]
+* added the ``verbosity`` configuration option for the logger [keul]
 
 0.2.3 - (2009/08/11)
 --------------------

@@ -100,12 +100,15 @@ Monitoring long running requests
 
 ``haufe.requestmonitoring`` allows you to monitor long-running request. The
 following configuration within your ``zope.conf`` configuration file will
-install the DumpTracer and check after the ``period`` seconds for requests
-running longer than ``time`` seconds::
+install the DumpTracer and check after the ``period`` time passed for requests
+running longer than ``time``::
 
     %import haufe.requestmonitoring
     <requestmonitor requestmonitor>
-        period 5s
+        # default is 1m
+        period 10s
+        # default is 1
+        verbosity 2
         <monitorhandler dumper>
             factory Haufe.RequestMonitoring.DumpTraceback.factory
             # 0 --> no repetition
@@ -113,6 +116,7 @@ running longer than ``time`` seconds::
             time 10s
         </monitorhandler>
     </requestmonitor>
+
 
 A typical dump trace looks like this (it shows you the URL and the current 
 stacktrace)::
@@ -138,7 +142,14 @@ stacktrace)::
     Module Products.ZopeProfiler.MonkeyPatcher, line 35, in __call__
     Module ZServer.PubCore.ZServerPublisher, line 28, in __init__
 
+The log line "*RequestMonitor monitoring X requests*" simply says that a request
+is under monitor and sometimes you get useless noise in the log file.
 
+You can play with the ``verbosity`` option: put the value to *0* for disable
+the log line.
+Default value (*1*) will display the log line every time one or more requests
+are under monitor.
+A value of *2* is more verbose, displaying also info about requests URLs.
 
 
 Installation

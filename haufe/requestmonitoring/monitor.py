@@ -36,6 +36,9 @@ class Request:
         self.request = request
         self.startTime = startTime
         self.threadId = threadId
+
+    def __str__(self):
+        return self.request.get('ACTUAL_URL')
         
 _lock = Lock()
 _state = {}
@@ -54,6 +57,7 @@ def account_request(request, end):
 class _Monitor:
     def __init__(self, config):
         self.period = config.period
+        self.verbosity = config.verbosity
         self.handlers = [_Handler(hconf, config) for hconf in config.handlers]
         
     def run(self):
@@ -64,9 +68,14 @@ class _Monitor:
                 _lock.acquire(); pending = _state.copy(); _lock.release()
                 if not pending: continue
                 monitorTime = time()
-                LOG('RequestMonitor', INFO, 'monitoring %d requests' % len(pending))
+                if self.verbosity==1:
+                    LOG('RequestMonitor', INFO, 'monitoring %d requests' % len(pending))                    
+                elif self.verbosity==2:
+                    LOG('RequestMonitor', INFO, 'monitoring %d requests\n%s' % (len(pending),
+                                                                                '\n'.join(['    %s' % req for req in pending.values()])))
                 for handler in self.handlers:
-                    try: handler(monitorTime, pending)
+                    try:
+                        handler(monitorTime, pending)
                     except:
                         LOG('RequestMonitor', ERROR, 'handler exception for %s' % handler.name, error=True)
         except: LOG('RequestMonitor', ERROR, 'monitor thread died with exception', error=True)
@@ -119,7 +128,8 @@ def start_monitor(unused):
     """start the request monitor if configured."""
     from App.config import getConfiguration
     config = getConfiguration().product_config.get('requestmonitor')
-    if config is None: return # not configured
+    if config is None:
+        return # not configured
     # register publication observers
     provideHandler(handle_request_start)
     provideHandler(handle_request_end)

@@ -8,6 +8,9 @@
     <key name="period" datatype="time-interval" default="1m">
       <description>The period with which requests are checked</description>
     </key>
+    <key name="verbosity" datatype="integer" default="1">
+      <description>0 for minor logging, 1 (default) for normal info, 2 for detailed info about requests</description>
+    </key>
     <multisection name="+" type="Haufe.RequestMonitoring.monitorhandler" attribute="handlers">
       <description>A non-empty sequence of request monitor handlers</description>
     </multisection>
