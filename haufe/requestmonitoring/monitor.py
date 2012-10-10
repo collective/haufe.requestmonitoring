@@ -38,7 +38,7 @@ class Request:
         self.threadId = threadId
 
     def __str__(self):
-        return self.request.get('ACTUAL_URL')
+        return self.request.get('ACTUAL_URL') or '(unknow URL)'
         
 _lock = Lock()
 _state = {}
