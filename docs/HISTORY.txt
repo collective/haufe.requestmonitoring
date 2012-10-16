@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3.0 (unreleased)
+0.3.0 (2012-10-16)
 ------------------
 
 * do not use deprecated ``threadframe`` dependency anymore on recent Python
