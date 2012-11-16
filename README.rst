@@ -110,7 +110,7 @@ running longer than ``time``::
         # default is 1
         verbosity 2
         <monitorhandler dumper>
-            factory Haufe.RequestMonitoring.DumpTraceback.factory
+            factory haufe.RequestMonitoring.DumpTraceback.factory
             # 0 --> no repetition
             repeat -1
             time 10s
