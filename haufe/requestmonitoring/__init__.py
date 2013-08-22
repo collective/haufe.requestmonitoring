@@ -6,5 +6,5 @@
 import App
 major, minor, micro, status, release = App.version_txt.getZopeVersion()
 
-if minor <= 10:
+if major == 2 and minor <= 10:
     import patch
