@@ -15,6 +15,9 @@ Requirements
 
 On olders Zope (2.10.x) you can take a look at `ZPublisherEventsBackport`__.
 
+EDIT: Starting from version 0.3.1, this product is also campatible with Zope < 2.11.
+Tested down to Zope version 2.10.6
+
 __ http://pypi.python.org/pypi/ZPublisherEventsBackport
 
 Features
