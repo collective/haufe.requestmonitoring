@@ -1,6 +1,8 @@
 #       $Id: DumpTraceback.py,v 1.2 2008-01-19 10:34:48 dieter Exp $
 '''Dump the traceback of a long running request.'''
 
+import os
+
 try:
     from sys import _current_frames as current_frames
 except ImportError:
@@ -49,13 +51,16 @@ def factory(config): return handler
 
 def handler(req, handlerState, globalState):
     threadId = req.threadId
+    stack_trace = ''.join(formatStack(current_frames()[threadId]))
+    if os.environ.get('DISABLE_HAUFE_MONITORING_ON_PDB') and stack_trace.find("  Module pdb,")>-1:
+        return
     LOG('RequestMonitor.DumpTrace', WARNING, 'Long running request',
         'Request %s "%s" running in thread %s since %ss\n%s' % (
       req.id,
       req.info,
       threadId,
       handlerState.monitorTime - req.startTime,
-      ''.join(formatStack(current_frames()[threadId])),
+      stack_trace,
       )
         )
     

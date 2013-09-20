@@ -1,11 +1,13 @@
 Changelog
 =========
 
-0.3.1 (unreleased)
+0.4.0 (unreleased)
 ------------------
 
-* Added retro-compatibility with old versions of Zope [giacomos] 
-
+* Added retro-compatibility with old versions of Zope
+  without bein forced to manually patch Zope [giacomos] 
+* You can now add a ``DISABLE_HAUFE_MONITORING_ON_PDB`` envvar
+  to stop dumping traceback when on Python ``pdb`` [keul]
 
 0.3.0 (2012-10-16)
 ------------------

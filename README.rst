@@ -11,12 +11,9 @@ Requirements
 ============
 
 * Zope 2.12.0b2 or higher
-* Currently tested on Zope 2.13.15
+* Currently tested on Zope 2.13.21
 
-On olders Zope (2.10.x) you can take a look at `ZPublisherEventsBackport`__.
-
-EDIT: Starting from version 0.3.1, this product is also campatible with Zope < 2.11.
-Tested down to Zope version 2.10.6
+You can use this with older Zope releases (2.10.x) but you must also include `ZPublisherEventsBackport`__.
 
 __ http://pypi.python.org/pypi/ZPublisherEventsBackport
 
@@ -104,21 +101,25 @@ Monitoring long running requests
 ``haufe.requestmonitoring`` allows you to monitor long-running request. The
 following configuration within your ``zope.conf`` configuration file will
 install the DumpTracer and check after the ``period`` time passed for requests
-running longer than ``time``::
+running longer than ``time``.
 
-    %import haufe.requestmonitoring
-    <requestmonitor requestmonitor>
-        # default is 1m
-        period 10s
-        # default is 1
-        verbosity 2
-        <monitorhandler dumper>
-            factory haufe.RequestMonitoring.DumpTraceback.factory
-            # 0 --> no repetition
-            repeat -1
-            time 10s
-        </monitorhandler>
-    </requestmonitor>
+To activate this logging, both ``monitor.zcml`` must be activated (off by
+default) and the requestmonitor configuration section must be present::
+
+    zope-conf-additional =
+        %import haufe.requestmonitoring
+        <requestmonitor requestmonitor>
+            # default is 1m
+            period 10s
+            # default is 1
+            verbosity 2
+            <monitorhandler dumper>
+                factory haufe.RequestMonitoring.DumpTraceback.factory
+                # 0 --> no repetition
+                repeat -1
+                time 10s
+            </monitorhandler>
+        </requestmonitor>
 
 
 A typical dump trace looks like this (it shows you the URL and the current 
@@ -154,15 +155,24 @@ Default value (*1*) will display the log line every time one or more requests
 are under monitor.
 A value of *2* is more verbose, displaying also info about requests URLs.
 
+Dump trace on pdb
++++++++++++++++++
+
+Traceback dump can became quickly a nightmare if you put a Python debug line on your source code
+and then you want to test it running Zope.
+
+In that case you can disable traceback dump when you are executing the debugger. Simply add the
+``DISABLE_HAUFE_MONITORING_ON_PDB`` environment variable::
+
+    environment-vars =
+        ...
+        DISABLE_HAUFE_MONITORING_ON_PDB True
 
 Installation
 ------------
 
-In addition you must ``haufe.requestmonitoring`` to the ``zcml`` option of
-your buildout.cfg file or include it within the ``site.zcml`` file using::
-
-   <include package="haufe.requestmonitoring" />
-
+Add ``haufe.requestmonitoring`` to both ``eggs`` and ``zcml`` option of
+your buildout.cfg file.
 
 Author
 ======
