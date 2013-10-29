@@ -114,7 +114,7 @@ default) and the requestmonitor configuration section must be present::
             # default is 1
             verbosity 2
             <monitorhandler dumper>
-                factory haufe.RequestMonitoring.DumpTraceback.factory
+                factory haufe.requestmonitoring.DumpTraceback.factory
                 # 0 --> no repetition
                 repeat -1
                 time 10s
