@@ -59,6 +59,7 @@ _lock = Lock()
 _state = {}
 _logfile = None
 
+
 def account_request(request, status=0):
     ticket = ITicket(request)
     id = ticket.id
@@ -67,24 +68,26 @@ def account_request(request, status=0):
     type = status and '-' or '+'
     ct = time()
     _lock.acquire()
-    try: 
+    try:
         if status:
             request_time = ct - _state[id]
             del _state[id]
-        else: _state[id] = ct
+        else:
+            _state[id] = ct
     finally:
         _lock.release()
     _log(type=type, status=status,
-         request_id=id, request_time=request_time, info = info
+         request_id=id, request_time=request_time, info=info
          )
-    
-    
+
+
 @adapter(IProcessStartingEvent)
 def start_timelogging(unused):
     """start timelogging if configured."""
     from App.config import getConfiguration
     config = getConfiguration().product_config.get('timelogging')
-    if config is None: return # not configured
+    if config is None:
+        return  # not configured
     global _logfile
     _logfile = Rotator(config['filebase'], lock=True)
     # indicate restart
@@ -93,29 +96,34 @@ def start_timelogging(unused):
     provideHandler(handle_request_start)
     provideHandler(handle_request_success)
     provideHandler(handle_request_failure)
-    
-    
+
+
 @adapter(IPubStart)
 def handle_request_start(event):
     """handle "IPubStart"."""
     account_request(event.request)
-    
+
+
 @adapter(IPubSuccess)
 def handle_request_success(event):
     """handle "IPubSuccess"."""
     request = event.request
     response = request.response
     status = IStatus(response, None)
-    if status is None: status = response.getStatus()
-    else: status = int(status)
+    if status is None:
+        status = response.getStatus()
+    else:
+        status = int(status)
     assert status
     account_request(request, status)
-    
+
+
 @adapter(IPubFailure)
 def handle_request_failure(event):
     """handle "IPubFailure"."""
     request = event.request
-    if event.retry: account_request(request, 390)
+    if event.retry:
+        account_request(request, 390)
     else:
       # Note: Zope forgets (at least sometimes)
       #   to inform the response about the exception.
@@ -130,17 +138,16 @@ def handle_request_failure(event):
         saved = response.__dict__.copy()
         response.setStatus(event.exc_info[0])
         handle_request_success(event)
-        response.__dict__.update(saved) # restore response again
-        
-        
-def _log(type, status=0, request_id=0, request_time=0, info = ''):
+        response.__dict__.update(saved)  # restore response again
+
+
+def _log(type, status=0, request_id=0, request_time=0, info=''):
     _logfile.write(_log_format % (
-      strftime(_log_time_format),
-      status,
-      request_time,
-      type,
-      request_id,
-      info,
-      )
-                   )
-    
+        strftime(_log_time_format),
+        status,
+        request_time,
+        type,
+        request_id,
+        info,
+    )
+    )

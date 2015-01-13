@@ -12,6 +12,7 @@ from zope.publisher.interfaces import IRequest
 
 from interfaces import ITicket, IInfo, IAdditionalInfo
 
+
 @adapter(IRequest)
 @implementer(ITicket)
 def get_or_make_ticket(request):
@@ -23,12 +24,15 @@ def get_or_make_ticket(request):
         _ticket_lock.release()
         ticket = request._request_monitoring_ticket_ = _Ticket(id)
     return ticket
-    
+
+
 class _Ticket(object):
     implements(ITicket)
+
     def __init__(self, id):
-        self.id = id; self.time = time()
-        
+        self.id = id
+        self.time = time()
+
 _ticket_lock = allocate_lock()
 _ticket_no = 0
 
@@ -44,13 +48,3 @@ def info(request):
             + (qs and '?' + qs or '')
             + (ai and (' [%s] ' % ai) or '')
             )
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

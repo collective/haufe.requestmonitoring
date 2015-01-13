@@ -6,58 +6,63 @@ from threading import Lock
 
 
 class RotatorInfo:
-  '''information about a rotating file.'''
-  def __init__(self,base,format='.%y%m%d'):
-    self._base= base
-    self._format= format
-    self._setup()
 
-  def toSwitch(self):
-    '''true, when we should switch filename.'''
-    return time() > self._limit
+    '''information about a rotating file.'''
 
-  def getFilename(self):
-    '''the current filename.'''
-    if self.toSwitch(): self._setup()
-    return self._filename
+    def __init__(self, base, format='.%y%m%d'):
+        self._base = base
+        self._format = format
+        self._setup()
 
-  def _setup(self,_t= (0,0,0)):
-    lt= localtime(time())
-    st= lt[:3] + _t + lt[6:]
-    self._limit= mktime(st[:2] + (st[2]+1,) + st[3:])
-    self._filename= self._base + strftime(self._format,st)
+    def toSwitch(self):
+        '''true, when we should switch filename.'''
+        return time() > self._limit
+
+    def getFilename(self):
+        '''the current filename.'''
+        if self.toSwitch():
+            self._setup()
+        return self._filename
+
+    def _setup(self, _t=(0, 0, 0)):
+        lt = localtime(time())
+        st = lt[:3] + _t + lt[6:]
+        self._limit = mktime(st[:2] + (st[2] + 1,) + st[3:])
+        self._filename = self._base + strftime(self._format, st)
+
 
 class Rotator(RotatorInfo):
-  '''a rotating writable file like object.'''
-  def __init__(self,base,format='.%y%m%d',lock=0):
-    RotatorInfo.__init__(self,base,format)
-    self._lock= lock and Lock()
-    self._open()
 
-  def write(self,str):
-    '''write *str* and flush.'''
-    lock= self._lock
-    if lock: lock.acquire()
-    try:
-      if self.toSwitch(): self._open()
-      f= self._file
-      f.write(str)
-      f.flush()
-    finally:
-      if lock: lock.release()
+    '''a rotating writable file like object.'''
 
-  def flush(self):
-    '''helper to support applications that want to flush themselves.'''
-    pass
+    def __init__(self, base, format='.%y%m%d', lock=0):
+        RotatorInfo.__init__(self, base, format)
+        self._lock = lock and Lock()
+        self._open()
 
-  def close(self):
-    if self._file is not None:
-      self._file.close()
-      self._file = None
+    def write(self, str):
+        '''write *str* and flush.'''
+        lock = self._lock
+        if lock:
+            lock.acquire()
+        try:
+            if self.toSwitch():
+                self._open()
+            f = self._file
+            f.write(str)
+            f.flush()
+        finally:
+            if lock:
+                lock.release()
 
-  def _open(self):
-    self._file= open(self.getFilename(),"a") # ATT: developped for Unix
+    def flush(self):
+        '''helper to support applications that want to flush themselves.'''
+        pass
 
+    def close(self):
+        if self._file is not None:
+            self._file.close()
+            self._file = None
 
-
-    
+    def _open(self):
+        self._file = open(self.getFilename(), "a")  # ATT: developped for Unix

@@ -37,25 +37,28 @@ def start_successlogging(unused):
     """start successlogging if configured."""
     from App.config import getConfiguration
     config = getConfiguration().product_config.get('successlogging')
-    if config is None: return # not configured
+    if config is None:
+        return  # not configured
     global _log_good, _log_bad
     _log_good = Rotator(config['filebase'] + '_good', lock=True)
     _log_bad = Rotator(config['filebase'] + '_bad', lock=True)
     # register publication observers
     provideHandler(handle_request_success)
     provideHandler(handle_request_failure)
-    
-    
+
+
 @adapter(IPubSuccess)
 def handle_request_success(event):
     """handle "IPubSuccess"."""
     _log_good.write('*')
-    
+
+
 @adapter(IPubFailure)
 def handle_request_failure(event):
     """handle "IPubFailure"."""
     request = event.request
-    if event.retry: handle_request_success(event)
+    if event.retry:
+        handle_request_success(event)
     else:
       # Note: Zope forgets (at least sometimes)
       #   to inform the response about the exception.
@@ -72,11 +75,13 @@ def handle_request_failure(event):
         ok = ISuccessFull(response, None)
         if ok is None:
             status = IStatus(response, None)
-            if status is None: status = response.getStatus()
-            else: status = int(status)
+            if status is None:
+                status = response.getStatus()
+            else:
+                status = int(status)
             ok = status < 500
-        if bool(ok): handle_request_success(event)
+        if bool(ok):
+            handle_request_success(event)
         else:
             _log_bad.write('*')
-        response.__dict__.update(saved) # restore response again
-        
+        response.__dict__.update(saved)  # restore response again
