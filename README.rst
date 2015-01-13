@@ -177,8 +177,8 @@ your buildout.cfg file.
 Author
 ======
 
-- original author: Dieter Maurer, Haufe Mediengruppe 
-- current maintainer: Andreas Jung, Haufe Mediengruppe
+- original author: Dieter Maurer 
+- current maintainer: Andreas Jung, info@zopyx.com
 
 
 License

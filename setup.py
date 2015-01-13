@@ -2,7 +2,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 
-version = '0.4.1.dev0'
+version = '0.4.0.1'
 
 install_requires = [
           'setuptools',
@@ -20,6 +20,8 @@ setup(name='haufe.requestmonitoring',
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+        "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
@@ -32,7 +34,7 @@ setup(name='haufe.requestmonitoring',
         "Topic :: System :: Logging",
         ],
       keywords='zope long-running-request monitor logging',
-      author='Haufe Mediengruppe',
+      author='Haufe-Lexware',
       author_email='info@zopyx.com',
       maintainer='Andreas Jung',
       maintainer_email='info@zopyx.com',
