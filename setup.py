@@ -2,10 +2,14 @@
 from setuptools import find_packages
 from setuptools import setup
 
-import os
 import sys
 
 version = '0.4.0.1'
+
+long_description = ('\n\n'.join([
+    open('README.rst').read(),
+    open('CHANGES.rst').read(),
+]))
 
 install_requires = [
     'setuptools',
@@ -20,8 +24,7 @@ setup(
     name='haufe.requestmonitoring',
     version=version,
     description="Zope 2 request monitoring",
-    long_description=open("README.rst").read() + "\n" +
-    open(os.path.join("docs", "HISTORY.txt")).read(),
+    long_description=long_description,
     # Get more strings from
     # http://www.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[

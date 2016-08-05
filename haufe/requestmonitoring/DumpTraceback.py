@@ -71,8 +71,8 @@ def factory(config):
 def handler(req, handlerState, globalState):
     threadId = req.threadId
     stack_trace = ''.join(formatStack(current_frames()[threadId]))
-    if os.environ.get('DISABLE_HAUFE_MONITORING_ON_PDB') and stack_trace.find(
-            "  Module pdb,") > -1:
+    if os.environ.get('DISABLE_HAUFE_MONITORING_ON_PDB')\
+            and stack_trace.find("  Module pdb,") > -1:
         return
     LOG(
         'RequestMonitor.DumpTrace',
