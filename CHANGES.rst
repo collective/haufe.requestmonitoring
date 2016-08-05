@@ -4,6 +4,10 @@ Changelog
 0.4.1 (unreleased)
 ------------------
 
+- Allow the ``monitorhandler`` define it's zLOG loglevel.
+  This makes possible to define the ``ERROR`` level instead of ``WARNING`` for long running requests and get notified by a tool like Sentry, when it's configured to notice ``ERROR`` level logs.
+  [thet]
+
 - Remove Logger.py, which is a simpler version of the "Long Request Logger" in DumpTraceback.py and isn't used nor documented.
   [thet]
 
