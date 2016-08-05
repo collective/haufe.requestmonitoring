@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Success request logging.
 
 This logging is used by "CheckZope" to determine the amount
@@ -21,13 +22,14 @@ containing the key "filebase".
 It specifies the basename of the logfiles (represented as "<base>" above).
 """
 
-from zope.component import adapter, provideHandler
-from zope.app.appsetup.interfaces import IProcessStartingEvent
-from ZPublisher.interfaces import IPubSuccess, IPubFailure
-
+from interfaces import IStatus
+from interfaces import ISuccessFull
 from Rotator import Rotator
-
-from interfaces import ISuccessFull, IStatus
+from zope.app.appsetup.interfaces import IProcessStartingEvent
+from zope.component import adapter
+from zope.component import provideHandler
+from ZPublisher.interfaces import IPubFailure
+from ZPublisher.interfaces import IPubSuccess
 
 _log_good = _log_bad = None
 
@@ -60,15 +62,15 @@ def handle_request_failure(event):
     if event.retry:
         handle_request_success(event)
     else:
-      # Note: Zope forgets (at least sometimes)
-      #   to inform the response about the exception.
-      #   Work around this bug.
-      # When Zope3 views are used for error handling, they no longer
-      #   communicate via exceptions with the ZPublisher. Instead, they seem
-      #   to use 'setBody' which interferes with the 'exception' call below.
-      #   We work around this problem by saving the response state and then
-      #   restore it again. Of course, this no longer works around the Zope
-      #   bug (forgetting to call 'exception') mentioned above.
+        # Note: Zope forgets (at least sometimes)
+        #   to inform the response about the exception.
+        #   Work around this bug.
+        # When Zope3 views are used for error handling, they no longer
+        #   communicate via exceptions with the ZPublisher. Instead, they seem
+        #   to use 'setBody' which interferes with the 'exception' call below.
+        #   We work around this problem by saving the response state and then
+        #   restore it again. Of course, this no longer works around the Zope
+        #   bug (forgetting to call 'exception') mentioned above.
         response = request.response
         saved = response.__dict__.copy()
         response.setStatus(event.exc_info[0])

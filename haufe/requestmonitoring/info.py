@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
 """module to extract (or add) information from a request.
 
 Used mostly as adapters.
 """
-from time import time
+from interfaces import IAdditionalInfo
+from interfaces import IInfo
+from interfaces import ITicket
 from thread import allocate_lock
-
-from zope.interface import implementer, implements
-from zope.component import adapter, adapts
-
+from time import time
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import implements
 from zope.publisher.interfaces import IRequest
-
-from interfaces import ITicket, IInfo, IAdditionalInfo
 
 
 @adapter(IRequest)
@@ -33,6 +34,7 @@ class _Ticket(object):
         self.id = id
         self.time = time()
 
+
 _ticket_lock = allocate_lock()
 _ticket_no = 0
 
@@ -44,7 +46,5 @@ def info(request):
     qs = request.get('QUERY_STRING')
     aia = IAdditionalInfo(request, None)
     ai = aia and str(aia)
-    return (request.get('PATH_INFO', '')
-            + (qs and '?' + qs or '')
-            + (ai and (' [%s] ' % ai) or '')
-            )
+    return (request.get('PATH_INFO', '') + (qs and '?' + qs or '') +
+            (ai and (' [%s] ' % ai) or ''))

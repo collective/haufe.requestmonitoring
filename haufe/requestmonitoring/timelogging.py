@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Fine resolution request logging.
 
 Used as base for "ztop" and "zanalyse", i.e. helps to determine
@@ -41,16 +42,19 @@ It specifies the basename of the logfile;
 Then, "ITicket", "IInfo" adapters must be defined (e.g. the one
 from "info"). An "IStatus" adapter may be defined for response.
 """
-from time import time, strftime
-from threading import Lock
-
-from zope.component import adapter, provideHandler
-from zope.app.appsetup.interfaces import IProcessStartingEvent
-from ZPublisher.interfaces import IPubStart, IPubSuccess, IPubFailure
-
+from interfaces import IInfo
+from interfaces import IStatus
+from interfaces import ITicket
 from Rotator import Rotator
-
-from interfaces import ITicket, IInfo, IStatus
+from threading import Lock
+from time import strftime
+from time import time
+from zope.app.appsetup.interfaces import IProcessStartingEvent
+from zope.component import adapter
+from zope.component import provideHandler
+from ZPublisher.interfaces import IPubFailure
+from ZPublisher.interfaces import IPubStart
+from ZPublisher.interfaces import IPubSuccess
 
 _log_format = '%s %3d %10.4f %c %6d %s\n'
 _log_time_format = '%y%m%dT%H%M%S'
@@ -76,9 +80,11 @@ def account_request(request, status=0):
             _state[id] = ct
     finally:
         _lock.release()
-    _log(type=type, status=status,
-         request_id=id, request_time=request_time, info=info
-         )
+    _log(type=type,
+         status=status,
+         request_id=id,
+         request_time=request_time,
+         info=info)
 
 
 @adapter(IProcessStartingEvent)
@@ -125,15 +131,15 @@ def handle_request_failure(event):
     if event.retry:
         account_request(request, 390)
     else:
-      # Note: Zope forgets (at least sometimes)
-      #   to inform the response about the exception.
-      #   Work around this bug.
-      # When Zope3 views are used for error handling, they no longer
-      #   communicate via exceptions with the ZPublisher. Instead, they seem
-      #   to use 'setBody' which interferes with the 'exception' call below.
-      #   We work around this problem by saving the response state and then
-      #   restore it again. Of course, this no longer works around the Zope
-      #   bug (forgetting to call 'exception') mentioned above.
+        # Note: Zope forgets (at least sometimes)
+        #   to inform the response about the exception.
+        #   Work around this bug.
+        # When Zope3 views are used for error handling, they no longer
+        #   communicate via exceptions with the ZPublisher. Instead, they seem
+        #   to use 'setBody' which interferes with the 'exception' call below.
+        #   We work around this problem by saving the response state and then
+        #   restore it again. Of course, this no longer works around the Zope
+        #   bug (forgetting to call 'exception') mentioned above.
         response = request.response
         saved = response.__dict__.copy()
         response.setStatus(event.exc_info[0])
@@ -142,12 +148,13 @@ def handle_request_failure(event):
 
 
 def _log(type, status=0, request_id=0, request_time=0, info=''):
-    _logfile.write(_log_format % (
-        strftime(_log_time_format),
-        status,
-        request_time,
-        type,
-        request_id,
-        info,
-    )
+    _logfile.write(
+        _log_format % (
+            strftime(_log_time_format),
+            status,
+            request_time,
+            type,
+            request_id,
+            info,
+        )
     )

@@ -1,7 +1,8 @@
-from zope.event import notify
-from zope.app.appsetup.interfaces import ProcessStarting
-from Zope2.Startup import ZopeStarter
+# -*- coding: utf-8 -*-
 from Zope2.Startup import logger
+from Zope2.Startup import ZopeStarter
+from zope.app.appsetup.interfaces import ProcessStarting
+from zope.event import notify
 
 
 def wrapped_prepare(self):

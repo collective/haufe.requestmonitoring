@@ -2,4 +2,3 @@
   <include file="timelogging.zcml" />
   <include file="successlogging.zcml" />
 </configure>
-

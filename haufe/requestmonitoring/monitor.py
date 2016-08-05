@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #       $Id: monitor.py,v 1.3 2008-07-01 05:47:52 dieter Exp $
 """Monitor request execution.
 
@@ -15,22 +16,25 @@ To activate the monitor, the following preconditions must be met
    for requests, e.g. the one from "info".
 """
 
-from time import time, sleep
+from interfaces import IInfo
+from interfaces import ITicket
+from thread import get_ident
+from thread import start_new_thread
 from threading import Lock
-from thread import start_new_thread, get_ident
-
-from zope.component import adapter, provideHandler
-from zope.app.appsetup.interfaces import IProcessStartingEvent
-
-from zLOG import LOG, INFO, ERROR
+from time import sleep
+from time import time
+from zLOG import ERROR
+from zLOG import INFO
+from zLOG import LOG
 from Zope2.Startup.datatypes import importable_name
-from ZPublisher.interfaces import IPubStart, IPubEnd
-
-from interfaces import ITicket, IInfo
+from zope.app.appsetup.interfaces import IProcessStartingEvent
+from zope.component import adapter
+from zope.component import provideHandler
+from ZPublisher.interfaces import IPubEnd
+from ZPublisher.interfaces import IPubStart
 
 
 class Request:
-
     '''request description.'''
 
     def __init__(self, id, info, request, startTime, threadId):
@@ -42,6 +46,7 @@ class Request:
 
     def __str__(self):
         return self.request.get('ACTUAL_URL') or '(unknow URL)'
+
 
 _lock = Lock()
 _state = {}
@@ -62,7 +67,6 @@ def account_request(request, end):
 
 
 class _Monitor:
-
     def __init__(self, config):
         self.period = config.period
         self.verbosity = config.verbosity
@@ -80,24 +84,39 @@ class _Monitor:
                     continue
                 monitorTime = time()
                 if self.verbosity == 1:
-                    LOG('RequestMonitor', INFO, 'monitoring %d requests' %
-                        len(pending))
+                    LOG(
+                        'RequestMonitor',
+                        INFO,
+                        'monitoring %d requests' % len(pending)
+                    )
                 elif self.verbosity == 2:
-                    LOG('RequestMonitor', INFO, 'monitoring %d requests\n%s' % (len(pending),
-                                                                                '\n'.join(['    %s' % req for req in pending.values()])))
+                    LOG(
+                        'RequestMonitor',
+                        INFO,
+                        'monitoring %d requests\n%s' % (
+                            len(pending),
+                            '\n'.join(['    %s' % req for req in pending.values()])  # noqa
+                        ))
                 for handler in self.handlers:
                     try:
                         handler(monitorTime, pending)
                     except:
-                        LOG('RequestMonitor', ERROR, 'handler exception for %s' %
-                            handler.name, error=True)
+                        LOG(
+                            'RequestMonitor',
+                            ERROR,
+                            'handler exception for %s' % handler.name,
+                            error=True
+                        )
         except:
-            LOG('RequestMonitor', ERROR,
-                'monitor thread died with exception', error=True)
+            LOG(
+                'RequestMonitor',
+                ERROR,
+                'monitor thread died with exception',
+                error=True
+            )
 
 
 class _Handler:
-
     def __init__(self, handlerConfig, monitorConfig):
         self.name = handlerConfig.getSectionName()
         self.time = handlerConfig.time

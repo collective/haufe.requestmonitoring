@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
 #       $Id: DumpTraceback.py,v 1.2 2008-01-19 10:34:48 dieter Exp $
 '''Dump the traceback of a long running request.'''
 
+from zExceptions.ExceptionFormatter import TextExceptionFormatter
+from zLOG import LOG
+from zLOG import WARNING
+
 import os
+
 
 try:
     from sys import _current_frames as current_frames
@@ -9,12 +15,9 @@ except ImportError:
     # Python 2.4 or lower: use threadframe
     from threadframe import dict as current_frames
 
-from zExceptions.ExceptionFormatter import TextExceptionFormatter
-from zLOG import LOG, WARNING
 
 
 class StackFormatter(TextExceptionFormatter):
-
     def formatStack(self, stack, limit=None):
         return self.formatException(None, None, _TBFrame(stack), limit)
 
@@ -35,6 +38,7 @@ class StackFormatter(TextExceptionFormatter):
     def formatExtraInfo(self, *unused):
         return
 
+
 formatter = StackFormatter()
 
 
@@ -43,7 +47,6 @@ def formatStack(stack, limit=None):
 
 
 class _NextTBFrame(object):
-
     '''a delayed next wrapper.'''
 
     def __get__(self, tbframe, unused):
@@ -53,7 +56,6 @@ class _NextTBFrame(object):
 
 
 class _TBFrame(object):
-
     '''a  traceback frame proxy.'''
     tb_next = _NextTBFrame()
 
@@ -69,9 +71,13 @@ def factory(config):
 def handler(req, handlerState, globalState):
     threadId = req.threadId
     stack_trace = ''.join(formatStack(current_frames()[threadId]))
-    if os.environ.get('DISABLE_HAUFE_MONITORING_ON_PDB') and stack_trace.find("  Module pdb,") > -1:
+    if os.environ.get('DISABLE_HAUFE_MONITORING_ON_PDB') and stack_trace.find(
+            "  Module pdb,") > -1:
         return
-    LOG('RequestMonitor.DumpTrace', WARNING, 'Long running request',
+    LOG(
+        'RequestMonitor.DumpTrace',
+        WARNING,
+        'Long running request',
         'Request %s "%s" running in thread %s since %ss\n%s' % (
             req.id,
             req.info,
@@ -79,4 +85,4 @@ def handler(req, handlerState, globalState):
             handlerState.monitorTime - req.startTime,
             stack_trace,
         )
-        )
+    )
