@@ -4,6 +4,9 @@ Changelog
 0.4.1 (unreleased)
 ------------------
 
+- Remove Logger.py, which is a simpler version of the "Long Request Logger" in DumpTraceback.py and isn't used nor documented.
+  [thet]
+
 - Move ``docs/HISTORY.txt`` to ``CHANGES.rst``.
   [thet]
 
