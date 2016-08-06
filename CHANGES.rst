@@ -4,6 +4,10 @@ Changelog
 0.4.1 (unreleased)
 ------------------
 
+- For all logging output, use unicode and string ``format`` instead of string substitution to avoid possible encoding errors.
+  Refs: #5.
+  [thet]
+
 - Allow the ``monitorhandler`` define it's zLOG loglevel.
   This makes possible to define the ``ERROR`` level instead of ``WARNING`` for long running requests and get notified by a tool like Sentry, when it's configured to notice ``ERROR`` level logs.
   [thet]

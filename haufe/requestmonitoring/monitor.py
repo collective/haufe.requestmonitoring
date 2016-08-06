@@ -74,7 +74,7 @@ class _Monitor:
 
     def run(self):
         try:
-            LOG('RequestMonitor', INFO, 'started')
+            LOG('RequestMonitor', INFO, u'started')
             while 1:
                 sleep(self.period)
                 _lock.acquire()
@@ -87,16 +87,20 @@ class _Monitor:
                     LOG(
                         'RequestMonitor',
                         INFO,
-                        'monitoring %d requests' % len(pending)
+                        u'monitoring {0:d} requests'.format(pending)
                     )
                 elif self.verbosity == 2:
                     LOG(
                         'RequestMonitor',
                         INFO,
-                        'monitoring %d requests\n%s' % (
+                        u'monitoring {0:d} requests\n{1}'.format(
                             len(pending),
-                            '\n'.join(['    %s' % req for req in pending.values()])  # noqa
-                        ))
+                            u'\n'.join([
+                                u'    {0}'.format(req)
+                                for req in pending.values()
+                            ])
+                        )
+                    )
                 for handler in self.handlers:
                     try:
                         handler(monitorTime, pending)
@@ -104,14 +108,14 @@ class _Monitor:
                         LOG(
                             'RequestMonitor',
                             ERROR,
-                            'handler exception for %s' % handler.name,
+                            u'handler exception for {0}'.format(handler.name),
                             error=True
                         )
         except:
             LOG(
                 'RequestMonitor',
                 ERROR,
-                'monitor thread died with exception',
+                u'monitor thread died with exception',
                 error=True
             )
 

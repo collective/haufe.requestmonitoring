@@ -82,7 +82,7 @@ class Handler(object):
             'RequestMonitor.DumpTrace',
             self.loglevel,
             'Long running request',
-            'Request %s "%s" running in thread %s since %ss\n%s' % (
+            u'Request {0} "{1}" running in thread {2} since {3}s\n{4}'.format(
                 req.id,
                 req.info,
                 threadId,
