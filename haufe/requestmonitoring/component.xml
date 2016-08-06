@@ -2,7 +2,6 @@
 
   <abstracttype name="Haufe.RequestMonitoring.monitorhandler" />
 
-
   <sectiontype name="requestmonitor" implements="zope.product.base">
     <description>Request monitor specification</description>
     <key name="period" datatype="time-interval" default="1m">
@@ -16,42 +15,33 @@
     </multisection>
   </sectiontype>
 
-
   <sectiontype name="monitorhandler" implements="Haufe.RequestMonitoring.monitorhandler">
     <key name="time" datatype="time-interval" required="yes">
       <description>The time after which the handler should be activated for the first time</description>
     </key>
     
-    <key name="factory" datatype="Zope2.Startup.datatypes.python_dotted_path"
-      required="yes">
+    <key name="factory" datatype="Zope2.Startup.datatypes.python_dotted_path" required="yes">
       <description>The dotted path to a Python callable.
-        It is called with this configuration as argument and
-	must return another callable, the handler itself.
+        It is called with this configuration as argument and must return another callable, the handler itself.
 
-        The handler is called with the arguments "request", "handlerState"
-	and "globalState".
-
-	"request" is a ".Request" structure describing
-	this request, including start time and PATH_INFO.
-
-	"handlerState" is a "._RequestState" instance describing
-	the execution of the handler (how often called).
-
-	"globalState" is a dictionary mapping request ids to ".Request"
-	instances (in order to support global descisions).
+        The handler is called with the arguments "request", "handlerState" and "globalState".
+        "request" is a ".Request" structure describing this request, including start time and PATH_INFO.
+	      "handlerState" is a "._RequestState" instance describing the execution of the handler (how often called).
+	      "globalState" is a dictionary mapping request ids to ".Request" instances (in order to support global descisions).
       </description>
     </key>
     
     <key name="repeat" datatype="integer" default="0">
-      <description>The maximal number of repetitions of handler calls
-        for a single request.
-	A negative value means indefinitely.
-      </description>
+      <description>The maximal number of repetitions of handler calls for a single request. A negative value means indefinitely.</description>
     </key>
 
     <key name="repeat-period" datatype="time-interval">
       <description>Time between two repetitions</description>
       <metadefault>equals the handlers time</metadefault>
+    </key>
+
+    <key name="loglevel" datatype="string" default="WARNING">
+      <description>The zLOG log level to use with this handler.</description>
     </key>
   </sectiontype>
 
