@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.1 (unreleased)
+0.5.0 (2016-09-29)
 ------------------
 
 - For all logging output, use unicode and string ``format`` instead of string substitution to avoid possible encoding errors.
