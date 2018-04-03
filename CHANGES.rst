@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.1 (unreleased)
+0.5.1 (2018-04-03)
 ------------------
 
 - Fix logging format.
