@@ -4,7 +4,9 @@ Changelog
 0.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix logging format.
+  Refs: #9
+  [mamico]
 
 
 0.5.0 (2016-09-29)

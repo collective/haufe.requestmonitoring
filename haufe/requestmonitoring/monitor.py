@@ -87,7 +87,7 @@ class _Monitor:
                     LOG(
                         'RequestMonitor',
                         INFO,
-                        u'monitoring {0:d} requests'.format(pending)
+                        u'monitoring {0:d} requests'.format(len(pending))
                     )
                 elif self.verbosity == 2:
                     LOG(
