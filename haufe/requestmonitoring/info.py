@@ -3,14 +3,13 @@
 
 Used mostly as adapters.
 """
-from interfaces import IAdditionalInfo
-from interfaces import IInfo
-from interfaces import ITicket
-from thread import allocate_lock
+from .interfaces import IAdditionalInfo
+from .interfaces import IInfo
+from .interfaces import ITicket
+from six.moves._thread import allocate_lock
 from time import time
 from zope.component import adapter
 from zope.interface import implementer
-from zope.interface import implements
 from zope.publisher.interfaces import IRequest
 
 
@@ -27,8 +26,8 @@ def get_or_make_ticket(request):
     return ticket
 
 
+@implementer(ITicket)
 class _Ticket(object):
-    implements(ITicket)
 
     def __init__(self, id):
         self.id = id
