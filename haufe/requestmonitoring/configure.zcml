@@ -1,5 +1,4 @@
 <configure xmlns="http://namespaces.zope.org/zope">
   <include file="timelogging.zcml" />
   <include file="successlogging.zcml" />
-  <include file="monitor.zcml" />
 </configure>
