@@ -4,7 +4,8 @@ Changelog
 0.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support Zope 4 / Python 3.
+  [tschorr]
 
 
 0.5.1 (2018-04-03)

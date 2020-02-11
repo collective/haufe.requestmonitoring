@@ -5,8 +5,9 @@
 from zExceptions.ExceptionFormatter import TextExceptionFormatter
 
 import os
-import zLOG
+import logging
 
+log = logging.getLogger('RequestMonitor.DumpTrace')
 
 try:
     from sys import _current_frames as current_frames
@@ -70,7 +71,7 @@ class Handler(object):
 
     def __init__(self, config):
         self.config = config
-        self.loglevel = int(getattr(zLOG, config.loglevel, zLOG.WARNING))
+        self.loglevel = int(getattr(logging, config.loglevel, logging.WARNING))
 
     def __call__(self, req, handlerState, globalState):
         threadId = req.threadId
@@ -78,11 +79,9 @@ class Handler(object):
         if os.environ.get('DISABLE_HAUFE_MONITORING_ON_PDB')\
                 and stack_trace.find("  Module pdb,") > -1:
             return
-        zLOG.LOG(
-            'RequestMonitor.DumpTrace',
+        log.log(
             self.loglevel,
-            'Long running request',
-            u'Request {0} "{1}" running in thread {2} since {3}s\n{4}'.format(
+            'Long running request Request {0} "{1}" running in thread {2} since {3}s\n{4}'.format(  # noqa: E501
                 req.id,
                 req.info,
                 threadId,

@@ -22,9 +22,9 @@ containing the key "filebase".
 It specifies the basename of the logfiles (represented as "<base>" above).
 """
 
-from interfaces import IStatus
-from interfaces import ISuccessFull
-from Rotator import Rotator
+from .interfaces import IStatus
+from .interfaces import ISuccessFull
+from .Rotator import Rotator
 from zope.app.appsetup.interfaces import IProcessStartingEvent
 from zope.component import adapter
 from zope.component import provideHandler

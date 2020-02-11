@@ -42,10 +42,10 @@ It specifies the basename of the logfile;
 Then, "ITicket", "IInfo" adapters must be defined (e.g. the one
 from "info"). An "IStatus" adapter may be defined for response.
 """
-from interfaces import IInfo
-from interfaces import IStatus
-from interfaces import ITicket
-from Rotator import Rotator
+from .interfaces import IInfo
+from .interfaces import IStatus
+from .interfaces import ITicket
+from .Rotator import Rotator
 from threading import Lock
 from time import strftime
 from time import time

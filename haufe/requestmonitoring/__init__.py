@@ -4,9 +4,9 @@
 
 # Zope versions > 2.11 don't need to be patched this way
 
-import App
+from App.version_txt import getZopeVersion
 
-major, minor, micro, status, release = App.version_txt.getZopeVersion()
+major, minor, micro, status, release = getZopeVersion()
 
 if major == 2 and minor <= 10:
     import patch  # noqa

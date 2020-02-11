@@ -19,8 +19,8 @@
     <key name="time" datatype="time-interval" required="yes">
       <description>The time after which the handler should be activated for the first time</description>
     </key>
-    
-    <key name="factory" datatype="Zope2.Startup.datatypes.python_dotted_path" required="yes">
+
+    <key name="factory" datatype="haufe.requestmonitoring.datatypes.python_dotted_path" required="yes">
       <description>The dotted path to a Python callable.
         It is called with this configuration as argument and must return another callable, the handler itself.
 
@@ -30,7 +30,7 @@
 	      "globalState" is a dictionary mapping request ids to ".Request" instances (in order to support global descisions).
       </description>
     </key>
-    
+
     <key name="repeat" datatype="integer" default="0">
       <description>The maximal number of repetitions of handler calls for a single request. A negative value means indefinitely.</description>
     </key>

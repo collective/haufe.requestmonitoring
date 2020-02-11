@@ -16,22 +16,23 @@ To activate the monitor, the following preconditions must be met
    for requests, e.g. the one from "info".
 """
 
-from interfaces import IInfo
-from interfaces import ITicket
-from thread import get_ident
-from thread import start_new_thread
+from .interfaces import IInfo
+from .interfaces import ITicket
+from six.moves._thread import get_ident
+from six.moves._thread import start_new_thread
 from threading import Lock
 from time import sleep
 from time import time
-from zLOG import ERROR
-from zLOG import INFO
-from zLOG import LOG
+import logging
 from Zope2.Startup.datatypes import importable_name
 from zope.app.appsetup.interfaces import IProcessStartingEvent
 from zope.component import adapter
 from zope.component import provideHandler
 from ZPublisher.interfaces import IPubEnd
 from ZPublisher.interfaces import IPubStart
+
+
+log = logging.getLogger('RequestMonitor')
 
 
 class Request:
@@ -74,7 +75,7 @@ class _Monitor:
 
     def run(self):
         try:
-            LOG('RequestMonitor', INFO, u'started')
+            log.info('RequestMonitor started')
             while 1:
                 sleep(self.period)
                 _lock.acquire()
@@ -84,16 +85,11 @@ class _Monitor:
                     continue
                 monitorTime = time()
                 if self.verbosity == 1:
-                    LOG(
-                        'RequestMonitor',
-                        INFO,
-                        u'monitoring {0:d} requests'.format(len(pending))
-                    )
+                    log.info('monitoring {0:d} requests'.format(
+                        len(pending)))
                 elif self.verbosity == 2:
-                    LOG(
-                        'RequestMonitor',
-                        INFO,
-                        u'monitoring {0:d} requests\n{1}'.format(
+                    log.info(
+                        'monitoring {0:d} requests\n{1}'.format(
                             len(pending),
                             u'\n'.join([
                                 u'    {0}'.format(req)
@@ -104,20 +100,13 @@ class _Monitor:
                 for handler in self.handlers:
                     try:
                         handler(monitorTime, pending)
-                    except:
-                        LOG(
-                            'RequestMonitor',
-                            ERROR,
-                            u'handler exception for {0}'.format(handler.name),
-                            error=True
-                        )
-        except:
-            LOG(
-                'RequestMonitor',
-                ERROR,
-                u'monitor thread died with exception',
-                error=True
-            )
+                    except Exception as e:  # noqa: E722
+                        log.error(
+                                'handler exception for {0}: {1}'.format(  # noqa: E501
+                                handler.name, e))
+        except:  # noqa: E722
+            log.error(
+                'monitor thread died with exception')
 
 
 class _Handler:
@@ -130,7 +119,7 @@ class _Handler:
         self._state = {}  # indexed by threadIds
 
     def __call__(self, monitorTime, requests):
-        for id, req in requests.iteritems():
+        for id, req in requests.items():
             threadId = req.threadId
             state = self._state.get(threadId)
             if state is None or state.id != id:
