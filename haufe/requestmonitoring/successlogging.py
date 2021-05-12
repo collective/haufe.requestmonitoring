@@ -25,7 +25,7 @@ It specifies the basename of the logfiles (represented as "<base>" above).
 from .interfaces import IStatus
 from .interfaces import ISuccessFull
 from .Rotator import Rotator
-from zope.app.appsetup.interfaces import IProcessStartingEvent
+from zope.processlifetime import IProcessStarting
 from zope.component import adapter
 from zope.component import provideHandler
 from ZPublisher.interfaces import IPubFailure
@@ -34,7 +34,7 @@ from ZPublisher.interfaces import IPubSuccess
 _log_good = _log_bad = None
 
 
-@adapter(IProcessStartingEvent)
+@adapter(IProcessStarting)
 def start_successlogging(unused):
     """start successlogging if configured."""
     from App.config import getConfiguration
