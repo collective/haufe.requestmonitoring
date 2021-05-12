@@ -45,7 +45,7 @@ setup(
     maintainer_email='info@zopyx.com',
     license='ZPL',
     url='http://github.com/collective/haufe.requestmonitoring',
-    packages=find_packages(exclude=['ez_setup']),
+    packages=find_packages(),
     namespace_packages=['haufe'],
     include_package_data=True,
     zip_safe=False,
