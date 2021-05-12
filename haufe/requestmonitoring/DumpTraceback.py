@@ -2,18 +2,13 @@
 #       $Id: DumpTraceback.py,v 1.2 2008-01-19 10:34:48 dieter Exp $
 '''Dump the traceback of a long running request.'''
 
+from sys import _current_frames as current_frames
 from zExceptions.ExceptionFormatter import TextExceptionFormatter
 
 import os
 import logging
 
 log = logging.getLogger('RequestMonitor.DumpTrace')
-
-try:
-    from sys import _current_frames as current_frames
-except ImportError:
-    # Python 2.4 or lower: use threadframe
-    from threadframe import dict as current_frames
 
 
 class StackFormatter(TextExceptionFormatter):

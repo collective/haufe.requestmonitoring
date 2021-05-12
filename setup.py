@@ -17,9 +17,6 @@ install_requires = [
     'zope.processlifetime',
 ]
 
-if sys.version_info < (2, 5):
-    install_requires.append('threadframe')
-
 setup(
     name='haufe.requestmonitoring',
     version=version,
