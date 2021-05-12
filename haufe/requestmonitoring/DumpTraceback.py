@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#       $Id: DumpTraceback.py,v 1.2 2008-01-19 10:34:48 dieter Exp $
 '''Dump the traceback of a long running request.'''
 
 from sys import _current_frames as current_frames

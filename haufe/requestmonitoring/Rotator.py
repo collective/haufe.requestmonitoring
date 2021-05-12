@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#       $Id: Rotator.py,v 1.1.156.2 2007-11-27 09:35:56 hamannu Exp $
 '''A daily rotating file.'''
 
 from threading import Lock
