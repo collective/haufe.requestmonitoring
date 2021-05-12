@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.2 (unreleased)
+0.6.0 (2021-05-12)
 ------------------
 
 - Support Zope 4 / Python 3.
