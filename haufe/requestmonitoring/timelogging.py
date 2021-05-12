@@ -49,7 +49,7 @@ from .Rotator import Rotator
 from threading import Lock
 from time import strftime
 from time import time
-from zope.app.appsetup.interfaces import IProcessStartingEvent
+from zope.processlifetime import IProcessStarting
 from zope.component import adapter
 from zope.component import provideHandler
 from ZPublisher.interfaces import IPubFailure
@@ -87,7 +87,7 @@ def account_request(request, status=0):
          info=info)
 
 
-@adapter(IProcessStartingEvent)
+@adapter(IProcessStarting)
 def start_timelogging(unused):
     """start timelogging if configured."""
     from App.config import getConfiguration

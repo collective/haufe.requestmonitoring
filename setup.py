@@ -14,7 +14,7 @@ long_description = ('\n\n'.join([
 install_requires = [
     'setuptools',
     'Zope2',
-    'zope.app.appsetup',
+    'zope.processlifetime',
 ]
 
 if sys.version_info < (2, 5):

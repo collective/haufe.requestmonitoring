@@ -25,7 +25,7 @@ from time import sleep
 from time import time
 import logging
 from Zope2.Startup.datatypes import importable_name
-from zope.app.appsetup.interfaces import IProcessStartingEvent
+from zope.processlifetime import IProcessStarting
 from zope.component import adapter
 from zope.component import provideHandler
 from ZPublisher.interfaces import IPubEnd
@@ -156,7 +156,7 @@ class _RequestState:
         self._nextTime = nextTime
 
 
-@adapter(IProcessStartingEvent)
+@adapter(IProcessStarting)
 def start_monitor(unused):
     """start the request monitor if configured."""
     from App.config import getConfiguration

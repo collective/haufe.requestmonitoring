@@ -4,8 +4,8 @@ Changelog
 0.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Avoid using deprecated zope.app.appsetup and use instead zope.processlifetime.
+  [gforcada]
 
 0.6.0 (2021-05-12)
 ------------------
