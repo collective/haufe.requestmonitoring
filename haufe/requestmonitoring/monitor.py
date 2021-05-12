@@ -35,7 +35,7 @@ log = logging.getLogger('RequestMonitor')
 
 
 class Request:
-    '''request description.'''
+    """request description."""
 
     def __init__(self, id, info, request, startTime, threadId):
         self.id = id

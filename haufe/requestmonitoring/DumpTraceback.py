@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''Dump the traceback of a long running request.'''
+"""Dump the traceback of a long running request."""
 
 from sys import _current_frames as current_frames
 from zExceptions.ExceptionFormatter import TextExceptionFormatter
@@ -14,7 +14,7 @@ class StackFormatter(TextExceptionFormatter):
     def formatStack(self, stack, limit=None):
         return self.formatException(None, None, _TBFrame(stack), limit)
 
-        # overrides
+    # overrides
     def getPrefix(self):
         return 'Python call stack (innermost first)'
 
@@ -40,7 +40,7 @@ def formatStack(stack, limit=None):
 
 
 class _NextTBFrame(object):
-    '''a delayed next wrapper.'''
+    """a delayed next wrapper."""
 
     def __get__(self, tbframe, unused):
         back = tbframe.tb_frame.f_back
@@ -49,7 +49,7 @@ class _NextTBFrame(object):
 
 
 class _TBFrame(object):
-    '''a  traceback frame proxy.'''
+    """a  traceback frame proxy."""
     tb_next = _NextTBFrame()
 
     def __init__(self, frame):
