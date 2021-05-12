@@ -6,10 +6,10 @@ import sys
 
 version = '0.6.1.dev0'
 
-long_description = ('\n\n'.join([
+long_description = '\n\n'.join([
     open('README.rst').read(),
     open('CHANGES.rst').read(),
-]))
+])
 
 install_requires = [
     'setuptools',
