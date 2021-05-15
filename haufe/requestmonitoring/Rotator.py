@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-#       $Id: Rotator.py,v 1.1.156.2 2007-11-27 09:35:56 hamannu Exp $
-'''A daily rotating file.'''
+"""A daily rotating file."""
 
 from threading import Lock
 from time import localtime
@@ -10,7 +9,7 @@ from time import time
 
 
 class RotatorInfo:
-    '''information about a rotating file.'''
+    """information about a rotating file."""
 
     def __init__(self, base, format='.%y%m%d'):
         self._base = base
@@ -18,11 +17,11 @@ class RotatorInfo:
         self._setup()
 
     def toSwitch(self):
-        '''true, when we should switch filename.'''
+        """true, when we should switch filename."""
         return time() > self._limit
 
     def getFilename(self):
-        '''the current filename.'''
+        """the current filename."""
         if self.toSwitch():
             self._setup()
         return self._filename
@@ -35,7 +34,7 @@ class RotatorInfo:
 
 
 class Rotator(RotatorInfo):
-    '''a rotating writable file like object.'''
+    """a rotating writable file like object."""
 
     def __init__(self, base, format='.%y%m%d', lock=0):
         RotatorInfo.__init__(self, base, format)
@@ -43,7 +42,7 @@ class Rotator(RotatorInfo):
         self._open()
 
     def write(self, str):
-        '''write *str* and flush.'''
+        """write *str* and flush."""
         lock = self._lock
         if lock:
             lock.acquire()
@@ -58,7 +57,7 @@ class Rotator(RotatorInfo):
                 lock.release()
 
     def flush(self):
-        '''helper to support applications that want to flush themselves.'''
+        """helper to support applications that want to flush themselves."""
         pass
 
     def close(self):

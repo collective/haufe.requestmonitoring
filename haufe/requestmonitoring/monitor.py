@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#       $Id: monitor.py,v 1.3 2008-07-01 05:47:52 dieter Exp $
 """Monitor request execution.
 
 Requires "feature_pubevents".
@@ -36,7 +35,7 @@ log = logging.getLogger('RequestMonitor')
 
 
 class Request:
-    '''request description.'''
+    """request description."""
 
     def __init__(self, id, info, request, startTime, threadId):
         self.id = id

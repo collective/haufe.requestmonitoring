@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#       $Id: DumpTraceback.py,v 1.2 2008-01-19 10:34:48 dieter Exp $
-'''Dump the traceback of a long running request.'''
+"""Dump the traceback of a long running request."""
 
+from sys import _current_frames as current_frames
 from zExceptions.ExceptionFormatter import TextExceptionFormatter
 
 import os
@@ -9,18 +9,12 @@ import logging
 
 log = logging.getLogger('RequestMonitor.DumpTrace')
 
-try:
-    from sys import _current_frames as current_frames
-except ImportError:
-    # Python 2.4 or lower: use threadframe
-    from threadframe import dict as current_frames
-
 
 class StackFormatter(TextExceptionFormatter):
     def formatStack(self, stack, limit=None):
         return self.formatException(None, None, _TBFrame(stack), limit)
 
-        # overrides
+    # overrides
     def getPrefix(self):
         return 'Python call stack (innermost first)'
 
@@ -46,7 +40,7 @@ def formatStack(stack, limit=None):
 
 
 class _NextTBFrame(object):
-    '''a delayed next wrapper.'''
+    """a delayed next wrapper."""
 
     def __get__(self, tbframe, unused):
         back = tbframe.tb_frame.f_back
@@ -55,7 +49,7 @@ class _NextTBFrame(object):
 
 
 class _TBFrame(object):
-    '''a  traceback frame proxy.'''
+    """a  traceback frame proxy."""
     tb_next = _NextTBFrame()
 
     def __init__(self, frame):
