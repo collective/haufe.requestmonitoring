@@ -59,9 +59,14 @@ def account_request(request, end):
     _lock.acquire()
     try:
         if end:
-            del _state[id]
+            if id in _state:
+                # exception in another subscriber can cause an end without a start
+                del _state[id]
         else:
             _state[id] = Request(id, info, request, ticket.time, get_ident())
+    except Exception as e:
+        _lock.release()
+        raise e
     finally:
         _lock.release()
 
