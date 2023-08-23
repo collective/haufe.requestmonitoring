@@ -56,19 +56,13 @@ def account_request(request, end):
     ticket = ITicket(request)
     id = ticket.id
     info = str(IInfo(request))
-    _lock.acquire()
-    try:
+    with _lock:
         if end:
             if id in _state:
                 # exception in another subscriber can cause an end without a start
                 del _state[id]
         else:
             _state[id] = Request(id, info, request, ticket.time, get_ident())
-    except Exception as e:
-        _lock.release()
-        raise e
-    finally:
-        _lock.release()
 
 
 class _Monitor:
@@ -82,9 +76,8 @@ class _Monitor:
             log.info('RequestMonitor started')
             while 1:
                 sleep(self.period)
-                _lock.acquire()
-                pending = _state.copy()
-                _lock.release()
+                with _lock:
+                    pending = _state.copy()
                 if not pending:
                     continue
                 monitorTime = time()
