@@ -100,11 +100,11 @@ class _Monitor:
                     try:
                         handler(monitorTime, pending)
                     except Exception as e:  # noqa: E722
-                        log.error(
+                        log.exception(
                                 'handler exception for {0}: {1}'.format(  # noqa: E501
                                 handler.name, e))
         except:  # noqa: E722
-            log.error(
+            log.exception(
                 'monitor thread died with exception')
 
 
