@@ -1,4 +1,12 @@
-<configure xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:plone="http://namespaces.plone.org/plone">
   <include file="timelogging.zcml" />
   <include file="successlogging.zcml" />
+  <plone:service
+    method="GET"
+    factory=".restapi.DummyLongRequest"
+    for="zope.interface.Interface"
+    permission="zope2.View"
+    name="@dummylongrequest"
+  />
 </configure>
