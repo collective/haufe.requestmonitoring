@@ -6,7 +6,7 @@
     method="GET"
     factory=".restapi.DummyLongRequest"
     for="zope.interface.Interface"
-    permission="zope2.View"
+    permission="cmf.ManagePortal"
     name="@dummylongrequest"
   />
 </configure>
