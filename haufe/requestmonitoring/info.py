@@ -6,7 +6,7 @@ Used mostly as adapters.
 from .interfaces import IAdditionalInfo
 from .interfaces import IInfo
 from .interfaces import ITicket
-from six.moves._thread import allocate_lock
+from _thread import allocate_lock
 from time import time
 from zope.component import adapter
 from zope.interface import implementer

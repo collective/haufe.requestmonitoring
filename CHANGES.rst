@@ -4,6 +4,12 @@ Changelog
 0.6.1 (unreleased)
 ------------------
 
+- Plone 6.2 / Zope 6 support: use a native (PEP 420) ``haufe`` namespace
+  instead of ``pkg_resources``, drop the undeclared ``six`` dependency and
+  the ``setuptools`` runtime dependency, depend on ``Zope`` instead of the
+  ``Zope2`` meta package, and require Python 3.10 or later.
+  [instification]
+
 - Avoid using deprecated zope.app.appsetup and use instead zope.processlifetime.
   [gforcada]
 

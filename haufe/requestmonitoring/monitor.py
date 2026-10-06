@@ -17,8 +17,8 @@ To activate the monitor, the following preconditions must be met
 
 from .interfaces import IInfo
 from .interfaces import ITicket
-from six.moves._thread import get_ident
-from six.moves._thread import start_new_thread
+from _thread import get_ident
+from _thread import start_new_thread
 from threading import Lock
 from time import sleep
 from time import time
