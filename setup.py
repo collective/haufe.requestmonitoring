@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 from setuptools import setup
-
-import sys
 
 version = '0.6.1.dev0'
 
@@ -12,8 +10,7 @@ long_description = '\n\n'.join([
 ])
 
 install_requires = [
-    'setuptools',
-    'Zope2',
+    'Zope',
     'zope.processlifetime',
 ]
 
@@ -27,14 +24,18 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
-        "Framework :: Plone :: 4.3",
-        "Framework :: Plone :: 5.2",
-        "Framework :: Zope2",
+        "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
+        "Framework :: Zope",
+        "Framework :: Zope :: 5",
+        "Framework :: Zope :: 6",
         "License :: OSI Approved :: Zope Public License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: System :: Monitoring",
         "Topic :: System :: Logging",
     ],
@@ -45,10 +46,10 @@ setup(
     maintainer_email='info@zopyx.com',
     license='ZPL',
     url='http://github.com/collective/haufe.requestmonitoring',
-    packages=find_packages(),
-    namespace_packages=['haufe'],
+    packages=find_namespace_packages(include=['haufe.*']),
     include_package_data=True,
     zip_safe=False,
+    python_requires='>=3.10',
     install_requires=install_requires,
     entry_points="""
     # -*- Entry points: -*-
